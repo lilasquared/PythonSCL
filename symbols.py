@@ -1,0 +1,22 @@
+from _token import Token
+from _constants import *
+
+SYMBOL_LOOKUP = {
+    '+': Token(TOKEN_ADD),
+    '-': Token(TOKEN_SUB),
+    '*': Token(TOKEN_MUL),
+    '/': Token(TOKEN_DIV),
+    '<=': Token(TOKEN_LTE),
+    '>=': Token(TOKEN_GTE),
+    '<': Token(TOKEN_LT),
+    '>': Token(TOKEN_GT),
+    '==': Token(TOKEN_EQ),
+    '~=': Token(TOKEN_NEQ),
+    '=': Token(TOKEN_ASSIGN),
+    '(': Token(TOKEN_LPAREN),
+    ')': Token(TOKEN_RPAREN)
+}
+
+
+def issymbol(str):
+    return str in SYMBOL_LOOKUP

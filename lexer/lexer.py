@@ -1,18 +1,18 @@
 from _constants import *
-from _token import Token
+from _token import Token, ValueToken
+from symbols import SYMBOL_LOOKUP, issymbol
+from reserved import RESERVED_LOOKUP, isreserved
 
-_lookup = {
-    OPERATOR_ADD: Token(TOKEN_ADD, OPERATOR_ADD)
-}
 
-class Scanner(object):
+class Lexer(object):
     def __init__(self, text):
         self.text = text
         self.position = 0
         self.current_token = None
         self.current_char = self.text[self.position]
 
-    def error(self):
+    @staticmethod
+    def error():
         raise Exception('Invalid Syntax')
 
     def advance(self):
@@ -26,7 +26,7 @@ class Scanner(object):
         while self.current_char is not None and self.current_char.isspace():
             self.advance()
 
-    def identifier(self):
+    def alnum_string(self):
         result = ''
         while self.current_char is not None and self.current_char.isalnum():
             result += self.current_char
@@ -38,7 +38,17 @@ class Scanner(object):
         while self.current_char is not None and self.current_char.isdigit():
             result += self.current_char
             self.advance()
-        return int(result)
+        return ValueToken(TOKEN_INTEGER, int(result))
+
+    def symbol(self):
+        result = ''
+        while self.current_char is not None and issymbol(self.current_char):
+            result += self.current_char
+            self.advance()
+        if issymbol(result):
+            return SYMBOL_LOOKUP[result]
+        else:
+            raise Exception('Unexpected Symbol {symbol}'.format(symbol=self.current_char))
 
     def get_next_token(self):
         while self.current_char is not None:
@@ -46,13 +56,12 @@ class Scanner(object):
                 self.skip_whitespace()
                 continue
             if self.current_char.isdigit():
-                return Token(TOKEN_INTEGER, self.integer())
+                return self.integer()
+            if issymbol(self.current_char):
+                return self.symbol()
             if self.current_char.isalpha():
-                identifier = self.identifier()
-                return Token(TOKEN_IDENTIFIER, self.identifier())
+                alnum_string = self.alnum_string()
+                if isreserved(alnum_string):
+                    return RESERVED_LOOKUP[alnum_string]
 
-            token = _lookup[self.current_char]
-            self.advance()
-            return token
-
-        return Token(TOKEN_EOF, None)
+        return Token(TOKEN_EOF)

@@ -1,1 +1,1 @@
-from scanner.scanner import Scanner
+from lexer.lexer import Lexer
