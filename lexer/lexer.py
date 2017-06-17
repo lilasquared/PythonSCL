@@ -1,7 +1,7 @@
-from _constants import *
 from _token import Token, ValueToken
-from symbols import SYMBOL_LOOKUP, issymbol
-from reserved import RESERVED_LOOKUP, isreserved
+from lexer._constants import *
+from lexer.reserved import RESERVED_LOOKUP, isreserved
+from lexer.symbols import SYMBOL_LOOKUP, issymbol
 
 
 class Lexer(object):

@@ -1,5 +1,7 @@
 from unittest import TestCase
-from symbols import issymbol
+
+from lexer.symbols import issymbol
+
 
 class SymbolsTest(TestCase):
 
