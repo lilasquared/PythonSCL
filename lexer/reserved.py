@@ -1,10 +1,15 @@
 from _token import Token
-from lexer._constants import *
+from lexer.constants import *
 
 RESERVED_LOOKUP = {
-    'BEGIN': Token(TOKEN_BEGIN)
+    'FUNCTION': Token(TOKEN_FUNCTION),
+    'BEGIN': Token(TOKEN_BEGINFUNCTION),
+    'ENDFUN': Token(TOKEN_ENDFUNCTION),
+    'RETURN': Token(TOKEN_RETURN),
+    'DISPLAY': Token(TOKEN_DISPLAY),
+    'LET': Token(TOKEN_LET),
+    'IF': Token(TOKEN_IF),
+    'THEN': Token(TOKEN_THEN),
+    'ELSE': Token(TOKEN_ELSE),
+    'ENDIF': Token(TOKEN_ENDIF)
 }
-
-
-def isreserved(str):
-    return str in RESERVED_LOOKUP

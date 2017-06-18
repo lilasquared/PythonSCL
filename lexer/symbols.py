@@ -1,5 +1,5 @@
 from _token import Token
-from lexer._constants import *
+from lexer.constants import *
 
 SYMBOL_LOOKUP = {
     '+': Token(TOKEN_ADD),
@@ -16,7 +16,3 @@ SYMBOL_LOOKUP = {
     '(': Token(TOKEN_LPAREN),
     ')': Token(TOKEN_RPAREN)
 }
-
-
-def issymbol(str):
-    return str in SYMBOL_LOOKUP

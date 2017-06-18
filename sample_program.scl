@@ -1,0 +1,10 @@
+FUNCTION MAIN
+BEGIN
+    LET myVar = 1000
+    IF myVar < 50
+    THEN
+        DISPLAY "YOU DID IT!"
+    ELSE
+        DISPLAY "YOU SUCK"
+    ENDIF
+ENDFUN

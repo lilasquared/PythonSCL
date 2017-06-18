@@ -1,9 +1,10 @@
 class Token(object):
     def __init__(self, type):
         self.type = type
+        self.line_number = None
 
     def __str__(self):
-        return 'Token({type})'.format(type=self.type)
+        return '{number}: Token({type})'.format(type=self.type, number=self.line_number)
 
     def __repr__(self):
         return self.__str__()
@@ -14,7 +15,7 @@ class ValueToken(Token):
         self.value = value
 
     def __str__(self):
-        return 'Token({type}, {value})'.format(type=self.type, value=self.value)
+        return '{number}. Token({type}, {value})'.format(number=self.line_number, type=self.type, value=self.value)
 
     def __repr__(self):
         return self.__str__()
