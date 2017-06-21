@@ -5,10 +5,11 @@ with open('sample_program.scl') as f:
     text = ''.join(s for s in f.readlines())
 
 lexer = Lexer(text)
-token = lexer.get_next_token()
-tokens = [token]
-while token.type is not TOKEN_EOF:
-    token = lexer.get_next_token()
-    tokens.append(token)
+token = None
+while token is None or (token is not None and token.type is not TOKEN_EOF):
+    try:
+        token = lexer.get_next_token()
+    except Exception as ex:
+        print(ex)
 
-[print(token) for token in tokens]
+    print(token)

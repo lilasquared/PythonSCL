@@ -1,10 +1,79 @@
-FUNCTION MAIN
-BEGIN
-    LET myVar = 1000
-    IF myVar < 50
-    THEN
-        DISPLAY "YOU DID IT!"
-    ELSE
-        DISPLAY "YOU SUCK"
-    ENDIF
-ENDFUN
+import "scl.h"
+// import "basic_lib.h"
+/* Program: arrayex1.scl
+   Computes the maximum value in an array.
+   J Garrido Updated 1-7-2016
+*/    
+symbol MM 45
+
+forward declarations
+function max_array return type integer 
+ parameters 
+       a array [] type integer, 
+       num_elements  type integer
+
+global declarations
+constants
+   define MAX = 50  type integer
+   define ARRAY_SIZE  100 type integer
+variables
+   define varm2 array[MM] of type integer
+   define var3  type integer   
+/*
+  This program computes the maximum value in an array
+*/
+  implementations
+
+  description
+      This is the main function of the application.
+      */
+  function main is
+    variables
+       define marray array [MAX] of type integer
+       define max_val of type integer
+       define kelements of type integer
+       define j of type integer
+       define mybhvar of type integer
+       define myihvar of type integer
+    begin
+      input "Number of elements to process: ", kelements      
+      for j = 0 to kelements -1 do
+         input "Enter element int value: " , marray [j] 
+      endfor
+      set max_val = max_array(marray, kelements)      
+      display "Max Integer found: ", max_val
+      exit
+  endfun main 
+   //
+  description
+        The following function definition finds the maximum value
+         in an integer array. To invoke the function, two arguments
+         are used: the integer array and the current number of 
+         elements in the array.
+   */
+  function  max_array return type integer
+   parameters 
+       a array[] of type integer,
+       num_elements of type integer
+   is
+   variables                      // local variables
+       define i of type integer   // used as index of the array
+       define max_elem of type integer // maximum value found so far
+       define hh of type integer
+   begin
+       set i = 1
+       set max_elem = a[0]
+       display "initial max_elem: ", max_elem
+       while i < num_elements do
+           if a[i] > max_elem
+           then
+               set max_elem = a[i]
+               set hh = varm2[i]^3
+               display "max_elem: ", max_elem
+           endif
+           set i = i + 1
+       endwhile
+       return max_elem
+  endfun max_array
+
+ 

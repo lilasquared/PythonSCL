@@ -15,6 +15,7 @@ class Lexer(object):
         self.pipeline = [
             self.end_of_file,
             self.end_of_line,
+            self.comment,
             self.skip_whitespace,
             self.integer_literal,
             self.string_literal,
@@ -59,6 +60,31 @@ class Lexer(object):
         self.advance()
 
         return ValueToken(TOKEN_STRING_LITERAL, result)
+
+    def comment(self):
+        self.skip_whitespace()
+
+        result = ''
+        if not self.current_char == '/':
+            return
+
+        self.advance()
+        if self.current_char is None or (self.current_char != '/' and self.current_char != '*'):
+            return
+
+        if self.current_char == '/':
+            self.advance()
+            while self.current_char is not None and self.current_char != '\n':
+                result += self.current_char
+                self.advance()
+
+        if self.current_char == '*':
+            self.advance()
+            while self.current_char is not None and self.current_char != '*':
+                result += self.current_char
+                self.advance()
+
+        return ValueToken(TOKEN_COMMENT, result)
 
     def symbol(self):
         result = ''

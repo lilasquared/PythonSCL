@@ -33,6 +33,28 @@ class LexerTest(TestCase):
         self.assertEqual(result.type, TOKEN_STRING_LITERAL)
         self.assertEqual(result.value, 'this is a string !@#$^woooo 1234')
 
+    def test_inline_comment(self):
+        lut = Lexer('//comment')
+        result = lut.comment()
+        self.assertEqual(result.type, TOKEN_COMMENT)
+        self.assertEqual(result.value, 'comment')
+
+        lut = Lexer("""  //this is a very
+        long string if I had the
+        energy to type more and more ...""")
+        result = lut.comment()
+        self.assertEqual(result.type, TOKEN_COMMENT)
+        self.assertEqual(result.value, 'this is a very')
+
+    def test_multi_line_comment(self):
+        comment = """this is
+        going to be a comment
+        that spans many lines"""
+        lut = Lexer('/*{comment}*/'.format(comment=comment))
+        result = lut.comment()
+        self.assertEqual(result.type, TOKEN_COMMENT)
+        self.assertEqual(result.value, comment)
+
     def test_symbol(self):
         lut = Lexer('+')
         result = lut.symbol()

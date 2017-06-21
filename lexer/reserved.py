@@ -2,6 +2,7 @@ from _token import Token
 from lexer.constants import *
 
 RESERVED_LOOKUP = {
+    'import': Token(TOKEN_IMPORT),
     'FUNCTION': Token(TOKEN_FUNCTION),
     'BEGIN': Token(TOKEN_BEGINFUNCTION),
     'ENDFUN': Token(TOKEN_ENDFUNCTION),
