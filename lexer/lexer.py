@@ -13,10 +13,10 @@ class Lexer(object):
         self.current_char = self.text[self.position]
 
         self.pipeline = [
+            self.skip_whitespace,
             self.end_of_file,
             self.end_of_line,
             self.comment,
-            self.skip_whitespace,
             self.integer_literal,
             self.string_literal,
             self.symbol,
@@ -62,8 +62,6 @@ class Lexer(object):
         return ValueToken(TOKEN_STRING_LITERAL, result)
 
     def comment(self):
-        self.skip_whitespace()
-
         result = ''
         if not self.current_char == '/':
             return
@@ -98,7 +96,7 @@ class Lexer(object):
         if result in SYMBOL_LOOKUP:
             return SYMBOL_LOOKUP[result]
         else:
-            raise Exception('Unexpected Symbol {symbol}'.format(symbol=self.current_char))
+            self.error()
 
     def word(self):
         result = ''
