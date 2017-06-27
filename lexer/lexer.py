@@ -7,10 +7,9 @@ from lexer.symbols import SYMBOL_LOOKUP
 class Lexer(object):
     def __init__(self, text):
         self.text = text
-        self.position = 0
+        self.position = -1
         self.current_line = 1
         self.current_token = None
-        self.current_char = self.text[self.position]
 
         self.pipeline = [
             self.skip_whitespace,
@@ -23,15 +22,24 @@ class Lexer(object):
             self.word,
         ]
 
+        self.errors = []
+        self.advance()
+
     def error(self):
+        self.advance()
         raise Exception('Unexpected token: {token}'.format(token=self.current_char))
 
     def advance(self):
         self.position += 1
         if self.position > len(self.text) - 1:
             self.current_char = None
+            self.next_char = None
         else:
             self.current_char = self.text[self.position]
+            if (self.position > len(self.text) - 2):
+                self.next_char = None
+            else:
+                self.next_char = self.text[self.position + 1]
 
     def skip_whitespace(self):
         while self.current_char is not None and self.current_char.isspace():
@@ -63,11 +71,13 @@ class Lexer(object):
 
     def comment(self):
         result = ''
-        if not self.current_char == '/':
+        start_position = self.position
+        if self.current_char != '/':
             return
 
         self.advance()
         if self.current_char is None or (self.current_char != '/' and self.current_char != '*'):
+            self.position = start_position
             return
 
         if self.current_char == '/':
@@ -75,14 +85,16 @@ class Lexer(object):
             while self.current_char is not None and self.current_char != '\n':
                 result += self.current_char
                 self.advance()
+            return ValueToken(TOKEN_COMMENT, result)
 
         if self.current_char == '*':
             self.advance()
-            while self.current_char is not None and self.current_char != '*':
+            while self.current_char is not None and self.current_char != '*' and self.next_char != '/':
                 result += self.current_char
                 self.advance()
-
-        return ValueToken(TOKEN_COMMENT, result)
+            self.advance()
+            self.advance()
+            return ValueToken(TOKEN_COMMENT, result)
 
     def symbol(self):
         result = ''
@@ -100,12 +112,18 @@ class Lexer(object):
 
     def word(self):
         result = ''
-        while self.current_char is not None and self.current_char.isalnum():
+        if not self.current_char.isalpha():
+            return
+
+        result += self.current_char
+        self.advance()
+        while self.current_char is not None and (self.current_char.isalnum() or self.current_char == '_'):
             result += self.current_char
             self.advance()
 
-        if result in RESERVED_LOOKUP:
-            return RESERVED_LOOKUP[result]
+        key = result.lower()
+        if key in RESERVED_LOOKUP:
+            return RESERVED_LOOKUP[key]
         else:
             return ValueToken(TOKEN_IDENTIFIER, result)
 
