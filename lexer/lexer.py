@@ -29,8 +29,7 @@ class Lexer(object):
         self.advance()
 
     def error(self):
-        self.advance()
-        raise Exception('Unexpected token: {token}'.format(token=self.current_char))
+        raise Exception('Unexpected token: {token}'.format(token=self.last_char))
 
     def advance(self):
         if self.last_char == '\n':

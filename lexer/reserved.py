@@ -25,6 +25,7 @@ RESERVED_LOOKUP = {
     'display': Token(TOKEN_DISPLAY),
     'set': Token(TOKEN_SET),
     'return': Token(TOKEN_RETURN),
+    'define': Token(TOKEN_DEFINE),
     'of': Token(TOKEN_OF),
     'type': Token(TOKEN_TYPE),
     'array': Token(TOKEN_TYPE_ARRAY),

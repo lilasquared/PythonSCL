@@ -6,6 +6,7 @@ SYMBOL_LOOKUP = {
     '-': Token(TOKEN_SUB),
     '*': Token(TOKEN_MUL),
     '/': Token(TOKEN_DIV),
+    '^': Token(TOKEN_POW),
     '<=': Token(TOKEN_LTE),
     '>=': Token(TOKEN_GTE),
     '<': Token(TOKEN_LT),
@@ -16,5 +17,6 @@ SYMBOL_LOOKUP = {
     '(': Token(TOKEN_LPAREN),
     ')': Token(TOKEN_RPAREN),
     '[': Token(TOKEN_RBRACKET),
-    ']': Token(TOKEN_LBRACKET)
+    ']': Token(TOKEN_LBRACKET),
+    ',': Token(TOKEN_COMMA),
 }
