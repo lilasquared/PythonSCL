@@ -15,26 +15,35 @@ class Lexer(object):
         self.next_char = None
 
         self.pipeline = [
-            self.end_of_line,
-            self.skip_whitespace,
-            self.end_of_file,
-            self.comment,
-            self.integer_literal,
-            self.string_literal,
-            self.symbol,
-            self.word,
+            self.__end_of_line,
+            self.__skip_whitespace,
+            self.__end_of_file,
+            self.__comment,
+            self.__integer_literal,
+            self.__string_literal,
+            self.__symbol,
+            self.__word,
         ]
 
         self.__errors = []
-        self.advance()
+        self.__advance()
 
-    def __error(self):
-        self.__errors.append({'line': self.current_line, 'char': self.last_char})
+    def get_next_token(self):
+        for test in self.pipeline:
+            result = test()
+            if isinstance(result, Token):
+                result.line_number = self.current_line
+                return result
+
+        self.__error()
 
     def errors(self):
         return self.__errors
+    
+    def __error(self):
+        self.__errors.append({'line': self.current_line, 'char': self.last_char})
 
-    def advance(self):
+    def __advance(self):
         if self.last_char == '\n':
             self.current_line += 1
 
@@ -52,88 +61,88 @@ class Lexer(object):
                 self.next_char = self.text[self.position + 1]
 
 
-    def skip_whitespace(self):
+    def __skip_whitespace(self):
         while self.current_char is not None and self.current_char.isspace():
-            self.advance()
+            self.__advance()
 
-    def integer_literal(self):
+    def __integer_literal(self):
         result = ''
         if not self.current_char.isdigit():
             return
 
         while self.current_char is not None and self.current_char.isdigit():
             result += self.current_char
-            self.advance()
+            self.__advance()
 
         return ValueToken(TOKEN_INTEGER_LITERAL, int(result))
 
-    def string_literal(self):
+    def __string_literal(self):
         result = ''
         if self.current_char is not SPECIAL_STRING_CAP:
             return
 
-        self.advance()
+        self.__advance()
         while self.current_char is not None and self.current_char is not SPECIAL_STRING_CAP:
             result += self.current_char
-            self.advance()
-        self.advance()
+            self.__advance()
+        self.__advance()
 
         return ValueToken(TOKEN_STRING_LITERAL, result)
 
-    def comment(self):
+    def __comment(self):
         result = ''
         start_position = self.position
         if self.current_char != '/':
             return
 
-        self.advance()
+        self.__advance()
         if self.current_char is None or (self.current_char != '/' and self.current_char != '*'):
             self.position = start_position
             return
 
         if self.current_char == '/':
-            self.advance()
+            self.__advance()
             while self.current_char is not None and self.current_char != '\n':
                 result += self.current_char
-                self.advance()
+                self.__advance()
             return ValueToken(TOKEN_COMMENT, result)
 
         if self.current_char == '*':
-            self.advance()
+            self.__advance()
             while self.current_char is not None and self.current_char != '*' and self.next_char != '/':
                 result += self.current_char
-                self.advance()
-            self.advance()
-            self.advance()
+                self.__advance()
+            self.__advance()
+            self.__advance()
             return ValueToken(TOKEN_COMMENT, result)
 
-    def symbol(self):
+    def __symbol(self):
         if self.current_char not in SYMBOL_LOOKUP:
             return
 
         if self.next_char not in SYMBOL_LOOKUP:
-            self.advance()
+            self.__advance()
             return SYMBOL_LOOKUP[self.last_char]
 
         symbol = self.current_char + self.next_char
         if symbol in SYMBOL_LOOKUP:
-            self.advance()
-            self.advance()
+            self.__advance()
+            self.__advance()
             return SYMBOL_LOOKUP[symbol]
 
-        self.advance()
+        self.__advance()
         return SYMBOL_LOOKUP[self.last_char]
 
-    def word(self):
+    def __word(self):
         result = ''
         if not self.current_char.isalpha():
             return
 
         result += self.current_char
-        self.advance()
+        self.__advance()
         while self.current_char is not None and (self.current_char.isalnum() or self.current_char == '_'):
             result += self.current_char
-            self.advance()
+            self.__advance()
 
         key = result.lower()
         if key in RESERVED_LOOKUP:
@@ -141,20 +150,11 @@ class Lexer(object):
         else:
             return ValueToken(TOKEN_IDENTIFIER, result)
 
-    def end_of_line(self):
+    def __end_of_line(self):
         if self.current_char == '\n':
-            self.advance()
+            self.__advance()
             return Token(TOKEN_EOL)
 
-    def end_of_file(self):
+    def __end_of_file(self):
         if self.current_char is None:
             return Token(TOKEN_EOF)
-
-    def get_next_token(self):
-        for test in self.pipeline:
-            result = test()
-            if isinstance(result, Token):
-                result.line_number = self.current_line
-                return result
-
-        self.__error()
