@@ -12,9 +12,9 @@ class Lexer(object):
         self.current_token = None
 
         self.pipeline = [
+            self.end_of_line,
             self.skip_whitespace,
             self.end_of_file,
-            self.end_of_line,
             self.comment,
             self.integer_literal,
             self.string_literal,

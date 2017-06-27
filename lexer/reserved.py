@@ -8,12 +8,6 @@ RESERVED_LOOKUP = {
     'specifications': Token(TOKEN_SPECIFICATIONS),
     'references': Token(TOKEN_REFERENCES),
     'function': Token(TOKEN_FUNCTION),
-    'type': Token(TOKEN_TYPE),
-    'struct': Token(TOKEN_TYPE_STRUCT),
-    'integer': Token(TOKEN_TYPE_INTEGER),
-    'array': Token(TOKEN_TYPE_ARRAY),
-    'pointer': Token(TOKEN_TYPE_POINTER),
-    'enum' : Token(TOKEN_TYPE_ENUM),
     'declarations': Token(TOKEN_DECLARATIONS),
     'implementations': Token(TOKEN_IMPLEMENTATIONS),
     'main': Token(TOKEN_MAIN),
@@ -30,5 +24,12 @@ RESERVED_LOOKUP = {
     'endrepear': Token(TOKEN_ENDREPEAT),
     'display': Token(TOKEN_DISPLAY),
     'set': Token(TOKEN_SET),
-    'return': Token(TOKEN_RETURN)
+    'return': Token(TOKEN_RETURN),
+    'type': Token(TOKEN_TYPE),
+    'array': Token(TOKEN_TYPE_ARRAY),
+    'struct': Token(TOKEN_TYPE_STRUCT),
+    'pointer': Token(TOKEN_TYPE_POINTER),
+    'integer': Token(TOKEN_TYPE_INTEGER),
+    'short': Token(TOKEN_TYPE_SHORT),
+    'enum' : Token(TOKEN_TYPE_ENUM)
 }

@@ -1,8 +1,13 @@
 from lexer.constants import TOKEN_EOF
 from lexer.lexer import Lexer
 
-with open('sample_program.scl') as f:
-    text = ''.join(s for s in f.readlines())
+path = input('Path to SCL source program: ')
+
+try:
+    with open(path) as f:
+        text = ''.join(s for s in f.readlines())
+except:
+    raise Exception('invalid input or bad file path')
 
 lexer = Lexer(text)
 token = None

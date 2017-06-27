@@ -14,5 +14,7 @@ SYMBOL_LOOKUP = {
     '~=': Token(TOKEN_NEQ),
     '=': Token(TOKEN_ASSIGN),
     '(': Token(TOKEN_LPAREN),
-    ')': Token(TOKEN_RPAREN)
+    ')': Token(TOKEN_RPAREN),
+    '[': Token(TOKEN_RBRACKET),
+    ']': Token(TOKEN_LBRACKET)
 }
