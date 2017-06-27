@@ -171,3 +171,8 @@ class LexerTest(TestCase):
 
         integer2 = lut.get_next_token()
         self.assertEqual(integer2.line_number, 7)
+
+    def test_collects_errors(self):
+        lut = Lexer('&')
+        lut.get_next_token()
+        self.assertEqual(len(lut.errors()), 1)

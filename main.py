@@ -12,9 +12,7 @@ except:
 lexer = Lexer(text)
 token = None
 while token is None or (token is not None and token.type is not TOKEN_EOF):
-    try:
-        token = lexer.get_next_token()
-    except Exception as ex:
-        print(ex)
-
+    token = lexer.get_next_token()
     print(token)
+
+[print(e) for e in lexer.errors()]

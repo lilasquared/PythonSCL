@@ -25,11 +25,14 @@ class Lexer(object):
             self.word,
         ]
 
-        self.errors = []
+        self.__errors = []
         self.advance()
 
     def __error(self):
-        self.errors.append({'line': self.current_line, 'char': self.last_char})
+        self.__errors.append({'line': self.current_line, 'char': self.last_char})
+
+    def errors(self):
+        return self.__errors
 
     def advance(self):
         if self.last_char == '\n':
