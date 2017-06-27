@@ -10,6 +10,9 @@ class Lexer(object):
         self.position = -1
         self.current_line = 1
         self.current_token = None
+        self.last_char = None
+        self.current_char = None
+        self.next_char = None
 
         self.pipeline = [
             self.end_of_line,
@@ -30,16 +33,22 @@ class Lexer(object):
         raise Exception('Unexpected token: {token}'.format(token=self.current_char))
 
     def advance(self):
+        if self.last_char == '\n':
+            self.current_line += 1
+
         self.position += 1
+        self.last_char = self.current_char
+
         if self.position > len(self.text) - 1:
             self.current_char = None
             self.next_char = None
         else:
             self.current_char = self.text[self.position]
-            if (self.position > len(self.text) - 2):
+            if self.position > len(self.text) - 2:
                 self.next_char = None
             else:
                 self.next_char = self.text[self.position + 1]
+
 
     def skip_whitespace(self):
         while self.current_char is not None and self.current_char.isspace():
@@ -141,8 +150,6 @@ class Lexer(object):
             result = test()
             if isinstance(result, Token):
                 result.line_number = self.current_line
-                if result.type is TOKEN_EOL:
-                    self.current_line += 1
                 return result
 
         self.error()

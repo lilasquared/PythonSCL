@@ -63,9 +63,8 @@ class LexerTest(TestCase):
         integer = 12345
         lut = Lexer("""//{comment}
         {integer}""".format(comment=comment, integer=integer))
-        result = lut.get_next_token()
-        self.assertEqual(result.type, TOKEN_COMMENT)
-        self.assertEqual(result.value, comment)
+        lut.get_next_token() #comment
+        self.assertEqual(lut.get_next_token().type, TOKEN_EOL)
 
         result = lut.get_next_token()
         self.assertEqual(result.type, TOKEN_INTEGER_LITERAL)
@@ -137,3 +136,33 @@ class LexerTest(TestCase):
         result = lut.get_next_token()
 
         self.assertEqual(result.type, TOKEN_MAIN)
+
+    def test_assigns_correct_line_number_to_token(self):
+        lut = Lexer("""12345
+        54321
+        /*
+        long
+        comment
+        */
+        12345
+        """)
+        integer = lut.get_next_token()
+        self.assertEqual(integer.line_number, 1)
+
+        eol = lut.get_next_token()
+        self.assertEqual(eol.line_number, 1)
+
+        integer2 = lut.get_next_token()
+        self.assertEqual(integer2.line_number, 2)
+
+        eol = lut.get_next_token()
+        self.assertEqual(eol.line_number, 2)
+
+        comment = lut.get_next_token()
+        self.assertEqual(comment.line_number, 6)
+
+        eol = lut.get_next_token()
+        self.assertEqual(eol.line_number, 6)
+
+        integer2 = lut.get_next_token()
+        self.assertEqual(integer2.line_number, 7)

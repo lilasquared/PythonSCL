@@ -25,6 +25,7 @@ variables
   implementations
 
   description
+      /*
       This is the main function of the application.
       */
   function main is
@@ -44,18 +45,19 @@ variables
       display "Max Integer found: ", max_val
       exit
   endfun main 
-   //
+
+  /*
   description
         The following function definition finds the maximum value
          in an integer array. To invoke the function, two arguments
          are used: the integer array and the current number of 
          elements in the array.
    */
+
   function  max_array return type integer
    parameters 
        a array[] of type integer,
        num_elements of type integer
-   is
    variables                      // local variables
        define i of type integer   // used as index of the array
        define max_elem of type integer // maximum value found so far
@@ -75,5 +77,3 @@ variables
        endwhile
        return max_elem
   endfun max_array
-
- 
