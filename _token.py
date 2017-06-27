@@ -15,7 +15,7 @@ class ValueToken(Token):
         self.value = value
 
     def __str__(self):
-        return '{number}. Token({type}, {value})'.format(number=self.line_number, type=self.type, value=self.value)
+        return '{number}: Token({type}, {value})'.format(number=self.line_number, type=self.type, value=self.value)
 
     def __repr__(self):
         return self.__str__()
