@@ -107,10 +107,15 @@ class LexerTest(TestCase):
         self.assertEqual(result.type, TOKEN_INTEGER_LITERAL)
         self.assertEqual(result.value, integer)
 
-    def test_handles_double_character_symbol(self):
+    def test_handles_valid_double_character_symbol(self):
         lut = Lexer('==')
         result = lut.get_next_token()
         self.assertEqual(result.type, TOKEN_EQ)
+
+    def test_handles_invalid_double_character_symbol(self):
+        lut = Lexer('[]')
+        self.assertEqual(lut.get_next_token().type, TOKEN_LBRACKET)
+        self.assertEqual(lut.get_next_token().type, TOKEN_RBRACKET)
 
     def test_handles_identifier_abc123(self):
         lut = Lexer('abc123')

@@ -28,8 +28,8 @@ class Lexer(object):
         self.errors = []
         self.advance()
 
-    def error(self):
-        raise Exception('Unexpected token: {token}'.format(token=self.last_char))
+    def __error(self):
+        self.errors.append({'line': self.current_line, 'char': self.last_char})
 
     def advance(self):
         if self.last_char == '\n':
@@ -105,18 +105,21 @@ class Lexer(object):
             return ValueToken(TOKEN_COMMENT, result)
 
     def symbol(self):
-        result = ''
         if self.current_char not in SYMBOL_LOOKUP:
             return
 
-        while self.current_char is not None and self.current_char in SYMBOL_LOOKUP:
-            result += self.current_char
+        if self.next_char not in SYMBOL_LOOKUP:
             self.advance()
+            return SYMBOL_LOOKUP[self.last_char]
 
-        if result in SYMBOL_LOOKUP:
-            return SYMBOL_LOOKUP[result]
-        else:
-            self.error()
+        symbol = self.current_char + self.next_char
+        if symbol in SYMBOL_LOOKUP:
+            self.advance()
+            self.advance()
+            return SYMBOL_LOOKUP[symbol]
+
+        self.advance()
+        return SYMBOL_LOOKUP[self.last_char]
 
     def word(self):
         result = ''
@@ -151,4 +154,4 @@ class Lexer(object):
                 result.line_number = self.current_line
                 return result
 
-        self.error()
+        self.__error()

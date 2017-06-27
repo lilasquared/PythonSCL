@@ -16,7 +16,7 @@ SYMBOL_LOOKUP = {
     '=': Token(TOKEN_ASSIGN),
     '(': Token(TOKEN_LPAREN),
     ')': Token(TOKEN_RPAREN),
-    '[': Token(TOKEN_RBRACKET),
-    ']': Token(TOKEN_LBRACKET),
+    '[': Token(TOKEN_LBRACKET),
+    ']': Token(TOKEN_RBRACKET),
     ',': Token(TOKEN_COMMA),
 }
