@@ -28,6 +28,11 @@ class Lexer(object):
         self.__errors = []
         self.__advance()
 
+    #
+    # Public method to retrieve next token from the given input text.
+    # Will return token of type TOKEN_EOF when the end of the input stream is reached
+    # Errors are collected internally and accessed via errors() method
+    #
     def get_next_token(self):
         for test in self.pipeline:
             result = test()
@@ -37,11 +42,16 @@ class Lexer(object):
 
         self.__error()
 
+    #
+    # Public method to retrieve array of all errors found.
+    # Errors have a line_number property indicating which line the error was found
+    #   and a char property indicating which character caused the error.
+    #
     def errors(self):
         return self.__errors
-    
+
     def __error(self):
-        self.__errors.append({'line': self.current_line, 'char': self.last_char})
+        self.__errors.append({'line_number': self.current_line, 'char': self.last_char})
 
     def __advance(self):
         if self.last_char == '\n':
