@@ -10,7 +10,8 @@ class Parser(object):
         self.rules = [
             self.__import,
             self.__symbol,
-            self.__variable_definition
+            self.__variable_definition,
+            self.__display
         ]
 
     def __advance(self):
@@ -50,6 +51,34 @@ class Parser(object):
             tokens.append(self.current_token)
             self.statements.append(Statement(STATEMENT_VARIABLE_DEF, tokens))
             return
+
+    def __display(self):
+        if (self.current_token.type != TOKEN_DISPLAY): return
+        tokens = [self.current_token]
+        self.__advance()
+
+        if (self.current_token.type != TOKEN_STRING_LITERAL and self.current_token.type != TOKEN_IDENTIFIER):
+            self.__error()
+            return
+
+        tokens.append(self.current_token)
+        self.__advance()
+
+        while (True):
+            if (self.current_token.type != TOKEN_COMMA):
+                break
+
+            tokens.append(self.current_token)
+            self.__advance()
+
+            if (self.current_token.type != TOKEN_STRING_LITERAL and self.current_token.type != TOKEN_IDENTIFIER):
+                self.__error()
+                return
+
+            tokens.append(self.current_token)
+            self.__advance()
+
+        self.statements.append(Statement(STATEMENT_DISPLAY, tokens))
 
     def parse(self):
         self.__advance()

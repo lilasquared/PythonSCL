@@ -43,3 +43,19 @@ class Parser_Test(TestCase):
 
         self.assertEqual(len(statements), 0)
         self.assertEqual(len(parser.errors), 1)
+
+    def test_display(self):
+        parser = self.__construct_parser('display myvar, "string_literal", otherVar, "other string" ')
+
+        statements = parser.parse()
+
+        self.assertEqual(len(statements), 1)
+        self.assertEqual(statements[0].type, STATEMENT_DISPLAY)
+
+    def test_display_error(self):
+        parser = self.__construct_parser('display myvar, function')
+
+        statements = parser.parse()
+
+        self.assertEqual(len(statements), 0)
+        self.assertEqual(len(parser.errors), 1)
