@@ -1,3 +1,7 @@
+##########
+# TOKENS #
+##########
+
 # Symbols
 TOKEN_ADD = 'ADD'
 TOKEN_SUB = 'SUB'
@@ -68,4 +72,16 @@ TOKEN_COMMENT = 'COMMENT'
 TOKEN_EOL = 'EOL'
 TOKEN_EOF = 'EOF'
 
+##############
+# STATEMENTS #
+##############
+
+STATEMENT_IMPORT = 'STMT_IMPORT'
+STATEMENT_SYMBOL = 'STMT_SYMBOL'
+
+#########
+# OTHER #
+#########
+
 SPECIAL_STRING_CAP = '\"'
+

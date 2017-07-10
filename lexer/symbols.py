@@ -1,5 +1,5 @@
 from _token import Token
-from lexer.constants import *
+from constants import *
 
 SYMBOL_LOOKUP = {
     '+': Token(TOKEN_ADD),

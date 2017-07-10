@@ -1,5 +1,5 @@
-from lexer.constants import TOKEN_EOF
 from lexer.lexer import Lexer
+from _parser import Parser
 
 path = input('Path to SCL source program: ')
 
@@ -10,9 +10,8 @@ except:
     raise Exception('invalid input or bad file path')
 
 lexer = Lexer(text)
-token = None
-while token is None or (token is not None and token.type is not TOKEN_EOF):
-    token = lexer.get_next_token()
-    print(token)
+parser = Parser(lexer)
 
-[print(e) for e in lexer.errors()]
+statements = parser.parse()
+
+[print(s) for s in statements]

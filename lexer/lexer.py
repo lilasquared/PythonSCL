@@ -1,5 +1,5 @@
 from _token import Token, ValueToken
-from lexer.constants import *
+from constants import *
 from lexer.reserved import RESERVED_LOOKUP
 from lexer.symbols import SYMBOL_LOOKUP
 

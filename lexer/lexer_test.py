@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from lexer.constants import *
+from constants import *
 from lexer.lexer import Lexer
 
 

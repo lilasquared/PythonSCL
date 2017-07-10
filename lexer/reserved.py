@@ -1,5 +1,5 @@
 from _token import Token
-from lexer.constants import *
+from constants import *
 
 RESERVED_LOOKUP = {
     'import': Token(TOKEN_IMPORT),
