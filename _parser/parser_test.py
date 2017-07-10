@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from constants import *
 from lexer.lexer import Lexer
-from _parser import Parser
+from _parser.parser import Parser
 
 
 class Parser_Test(TestCase):
