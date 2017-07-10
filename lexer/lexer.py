@@ -1,3 +1,9 @@
+#  Aaron Roberts
+#  CS4308 – Concepts of Programming Language
+#  Summer 2017 Online
+
+# Lexer class used to scan groups of characters and convert them to tokens
+
 from _token import Token, ValueToken
 from constants import *
 from lexer.reserved import RESERVED_LOOKUP
@@ -70,7 +76,6 @@ class Lexer(object):
             else:
                 self.next_char = self.text[self.position + 1]
 
-
     def __skip_whitespace(self):
         while self.current_char is not None and self.current_char.isspace():
             self.__advance()
@@ -132,16 +137,16 @@ class Lexer(object):
 
         if self.next_char not in SYMBOL_LOOKUP:
             self.__advance()
-            return SYMBOL_LOOKUP[self.last_char]
+            return Token(SYMBOL_LOOKUP[self.last_char])
 
         symbol = self.current_char + self.next_char
         if symbol in SYMBOL_LOOKUP:
             self.__advance()
             self.__advance()
-            return SYMBOL_LOOKUP[symbol]
+            return Token(SYMBOL_LOOKUP[symbol])
 
         self.__advance()
-        return SYMBOL_LOOKUP[self.last_char]
+        return Token(SYMBOL_LOOKUP[self.last_char])
 
     def __word(self):
         result = ''

@@ -1,5 +1,11 @@
+#  Aaron Roberts
+#  CS4308 – Concepts of Programming Language
+#  Summer 2017 Online
+
+# Parser class used to identify statements from groups of tokens from the lexer (scanner)
+
 from constants import *
-from _parser.rules import SIMPLE_STATEMENT_RULES
+from _parser.rules import SIMPLE_STATEMENT_RULES, TYPE_TOKENS
 
 class Parser(object):
     def __init__(self, lexer):
@@ -10,7 +16,9 @@ class Parser(object):
         self.rules = [
             self.__import,
             self.__symbol,
-            self.__variable_definition,
+            self.__variable_def,
+            self.__function_def,
+            self.__constant_def,
             self.__display
         ]
 
@@ -43,14 +51,32 @@ class Parser(object):
         if (len(tokens) == 0): return
         self.statements.append(Statement(STATEMENT_SYMBOL, tokens))
 
-    def __variable_definition(self):
+    def __variable_def(self):
         tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_VARIABLE_DEF])
         if (len(tokens) == 0): return
 
-        if (self.current_token.type == TOKEN_TYPE_INTEGER):
-            tokens.append(self.current_token)
-            self.statements.append(Statement(STATEMENT_VARIABLE_DEF, tokens))
+        if (self.current_token.type not in TYPE_TOKENS):
+            self.__error()
             return
+
+        tokens.append(self.current_token)
+        self.statements.append(Statement(STATEMENT_VARIABLE_DEF, tokens))
+
+    def __function_def(self):
+        tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_FUNCTION_DEF])
+        if (len(tokens) == 0): return
+
+        if (self.current_token.type not in TYPE_TOKENS):
+            self.__error()
+            return
+
+        tokens.append(self.current_token)
+        self.statements.append(Statement(STATEMENT_FUNCTION_DEF, tokens))
+
+    def __constant_def(self):
+        tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_CONSTANT_DEF])
+        if (len(tokens) == 0): return
+        self.statements.append(Statement(STATEMENT_CONSTANT_DEF, tokens))
 
     def __display(self):
         if (self.current_token.type != TOKEN_DISPLAY): return

@@ -1,3 +1,9 @@
+#  Aaron Roberts
+#  CS4308 – Concepts of Programming Language
+#  Summer 2017 Online
+
+# Token class used to store token type and line number
+
 class Token(object):
     def __init__(self, type):
         self.type = type
@@ -8,6 +14,8 @@ class Token(object):
 
     def __repr__(self):
         return self.__str__()
+
+# ValueToken class inherited from Token class used to store token type, line number, and value
 
 class ValueToken(Token):
     def __init__(self, type, value):

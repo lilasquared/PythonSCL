@@ -1,3 +1,7 @@
+#  Aaron Roberts
+#  CS4308 – Concepts of Programming Language
+#  Summer 2017 Online
+
 ##########
 # TOKENS #
 ##########
@@ -81,6 +85,7 @@ STATEMENT_SYMBOL = 'STMT_SYMBOL'
 STATEMENT_DISPLAY = 'STMT_DISPLAY'
 STATEMENT_FUNCTION_DEF = 'STMT_FUNCTION_DEF'
 STATEMENT_VARIABLE_DEF = 'STMT_VARIABLE_DEF'
+STATEMENT_CONSTANT_DEF = 'STMT_CONSTANT_DEF'
 
 #########
 # OTHER #

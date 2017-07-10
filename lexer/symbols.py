@@ -1,22 +1,27 @@
-from _token import Token
+#  Aaron Roberts
+#  CS4308 – Concepts of Programming Language
+#  Summer 2017 Online
+
+# symbols used by the Lexer class
+
 from constants import *
 
 SYMBOL_LOOKUP = {
-    '+': Token(TOKEN_ADD),
-    '-': Token(TOKEN_SUB),
-    '*': Token(TOKEN_MUL),
-    '/': Token(TOKEN_DIV),
-    '^': Token(TOKEN_POW),
-    '<=': Token(TOKEN_LTE),
-    '>=': Token(TOKEN_GTE),
-    '<': Token(TOKEN_LT),
-    '>': Token(TOKEN_GT),
-    '==': Token(TOKEN_EQ),
-    '~=': Token(TOKEN_NEQ),
-    '=': Token(TOKEN_ASSIGN),
-    '(': Token(TOKEN_LPAREN),
-    ')': Token(TOKEN_RPAREN),
-    '[': Token(TOKEN_LBRACKET),
-    ']': Token(TOKEN_RBRACKET),
-    ',': Token(TOKEN_COMMA),
+    '+': TOKEN_ADD,
+    '-': TOKEN_SUB,
+    '*': TOKEN_MUL,
+    '/': TOKEN_DIV,
+    '^': TOKEN_POW,
+    '<=': TOKEN_LTE,
+    '>=': TOKEN_GTE,
+    '<': TOKEN_LT,
+    '>': TOKEN_GT,
+    '==': TOKEN_EQ,
+    '~=': TOKEN_NEQ,
+    '=': TOKEN_ASSIGN,
+    '(': TOKEN_LPAREN,
+    '': TOKEN_RPAREN,
+    '[': TOKEN_LBRACKET,
+    ']': TOKEN_RBRACKET,
+    ',': TOKEN_COMMA,
 }

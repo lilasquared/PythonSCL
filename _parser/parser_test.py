@@ -1,3 +1,9 @@
+#  Aaron Roberts
+#  CS4308 – Concepts of Programming Language
+#  Summer 2017 Online
+
+# Unit tests for the parser class
+
 from unittest import TestCase
 
 from constants import *

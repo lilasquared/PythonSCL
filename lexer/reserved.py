@@ -1,4 +1,9 @@
-from _token import Token
+#  Aaron Roberts
+#  CS4308 – Concepts of Programming Language
+#  Summer 2017 Online
+
+# Reserved words used by the lexer class
+
 from constants import *
 
 RESERVED_LOOKUP = {
