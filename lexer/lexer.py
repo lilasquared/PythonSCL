@@ -156,7 +156,7 @@ class Lexer(object):
 
         key = result.lower()
         if key in RESERVED_LOOKUP:
-            return RESERVED_LOOKUP[key]
+            return Token(RESERVED_LOOKUP[key])
         else:
             return ValueToken(TOKEN_IDENTIFIER, result)
 
