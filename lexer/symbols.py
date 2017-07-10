@@ -4,6 +4,7 @@
 
 # symbols used by the Lexer class
 
+from _token import Token
 from constants import *
 
 SYMBOL_LOOKUP = {
