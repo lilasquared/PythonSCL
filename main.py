@@ -6,7 +6,7 @@
 # so use sample program type "sample_program.scl" when prompted.
 
 from lexer.lexer import Lexer
-from _parser.parser import Parser, identifiers
+from _parser.parser import Parser, identifiers, functions
 
 path = 'sample_program.scl' #input('Path to SCL source program: ')
 
@@ -29,6 +29,11 @@ print('+--------------------+')
 print('| IDENTIFIERS        |')
 print('+--------------------+')
 [print(identifiers[i]) for i in identifiers]
+
+print('+--------------------+')
+print('| FUNCTIONS          |')
+print('+--------------------+')
+[print(functions[i]) for i in functions]
 
 print('+--------------------+')
 print('| ERRORS             |')

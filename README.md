@@ -45,10 +45,6 @@ func_main :
 oper_type : RETURN chk_ptr chk_array ret_type 
           ;
 
-chk_ptr :
-        | POINTER {pointer_flag = true;}
-        ;
-
 chk_array :
           | ARRAY array_dim_list
           ;

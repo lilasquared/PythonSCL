@@ -9,7 +9,7 @@ symbol MM 45
 forward declarations
 function max_array return type integer 
 parameters
-       a array[] of type integer,
+       // a array[] of type integer,
        num_elements of type integer
 
 global declarations
@@ -25,13 +25,13 @@ variables
 /*
   This program computes the maximum value in an array
 */
-  implementations
-
+implementations
+  /*
   description
-      /*
-      This is the main function of the application.
-      */
-  function main is
+        This is the main function of the application.
+  */
+  // fixed this line to match function declaration syntax
+  function main return type integer
     variables
        // commenting out array variables
        // define marray array [MAX] of type integer
@@ -43,11 +43,10 @@ variables
     begin
       input "Number of elements to process: ", kelements      
       for j = 0 to kelements -1 do
-         input "Enter element int value: " , marray [j] 
+         input "Enter element int value: " , marray[j]
       endfor
       set max_val = max_array(marray, kelements)
       display "Max Integer found: ", max_val
-      exit
   endfun main 
 
   /*
@@ -60,7 +59,7 @@ variables
 
   function  max_array return type integer
    parameters 
-       a array[] of type integer,
+       // a array[] of type integer,
        num_elements of type integer
    variables                      // local variables
        define i of type integer   // used as index of the array

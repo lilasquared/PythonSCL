@@ -16,7 +16,6 @@ RESERVED_LOOKUP = {
     'function': TOKEN_FUNCTION,
     'declarations': TOKEN_DECLARATIONS,
     'implementations': TOKEN_IMPLEMENTATIONS,
-    'main': TOKEN_MAIN,
     'parameters': TOKEN_PARAMETERS,
     'variables': TOKEN_VARIABLES,
     'constants': TOKEN_CONSTANTS,
@@ -40,5 +39,6 @@ RESERVED_LOOKUP = {
     'pointer': TOKEN_TYPE_POINTER,
     'integer': TOKEN_TYPE_INTEGER,
     'short': TOKEN_TYPE_SHORT,
-    'enum' : TOKEN_TYPE_ENUM
+    'enum' : TOKEN_TYPE_ENUM,
+    'input' : TOKEN_INPUT
 }
