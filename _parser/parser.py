@@ -7,23 +7,29 @@
 from constants import *
 from _parser.rules import SIMPLE_STATEMENT_RULES, TYPE_TOKENS
 
+identifiers = {}
+
 class Parser(object):
     def __init__(self, lexer):
         self.lexer = lexer
         self.current_token = None
         self.statements = []
         self.errors = []
+
         self.rules = [
             self.__import,
             self.__symbol,
-            self.__variable_def,
-            self.__function_def,
-            self.__constant_def,
+            self.__forward_declarations,
+            self.__global_declarations,
+            self.__variable_definition,
+            self.__constant_definition,
             self.__display
         ]
 
     def __advance(self):
         self.current_token = self.lexer.get_next_token()
+        while(self.current_token.type == TOKEN_EOL or self.current_token.type == TOKEN_COMMENT):
+            self.current_token = self.lexer.get_next_token()
 
     def __error(self):
         self.errors.append('Unexpected Token : {token}'.format(token=self.current_token.__str__()))
@@ -51,32 +57,50 @@ class Parser(object):
         if (len(tokens) == 0): return
         self.statements.append(Statement(STATEMENT_SYMBOL, tokens))
 
-    def __variable_def(self):
+    def __forward_declarations(self):
+        tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_FORWARD_DECLARATIONS])
+        if (len(tokens) == 0): return
+        self.statements.append(Statement(STATEMENT_FORWARD_DECLARATIONS, tokens))
+
+    def __global_declarations(self):
+        tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_GLOBAL_DECLARATIONS])
+        if (len(tokens) == 0): return
+        self.statements.append(Statement(STATEMENT_GLOBAL_DECLARATIONS, tokens))
+
+    #
+    # When a variable declaration is found the variable is added to the global identifiers dictionary
+    # A default value of 0 is assigned to all integer variables
+    # If the identifier already exists in the table it is simply overwritten.
+    #
+    def __variable_definition(self):
+        if (self.current_token.type != TOKEN_VARIABLES): return
+        self.__advance()
         tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_VARIABLE_DEF])
-        if (len(tokens) == 0): return
+        while (len(tokens) > 0):
+            identifierName = tokens[1].value
+            self.statements.append(Statement(STATEMENT_VARIABLE_DEF, tokens))
 
-        if (self.current_token.type not in TYPE_TOKENS):
-            self.__error()
-            return
+            identifiers[identifierName] = Identifier(identifierName, TOKEN_TYPE_INTEGER, 0)
+            tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_VARIABLE_DEF])
+        return
 
-        tokens.append(self.current_token)
-        self.statements.append(Statement(STATEMENT_VARIABLE_DEF, tokens))
-
-    def __function_def(self):
-        tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_FUNCTION_DEF])
-        if (len(tokens) == 0): return
-
-        if (self.current_token.type not in TYPE_TOKENS):
-            self.__error()
-            return
-
-        tokens.append(self.current_token)
-        self.statements.append(Statement(STATEMENT_FUNCTION_DEF, tokens))
-
-    def __constant_def(self):
+    #
+    # When a constant declaration is found the variable is added to the global identifiers dictionary
+    # The value provided is assigned to the identifier
+    # If the identifier already exists in the table an error is thrown
+    #
+    def __constant_definition(self):
+        if (self.current_token.type != TOKEN_CONSTANTS): return
+        self.__advance()
         tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_CONSTANT_DEF])
-        if (len(tokens) == 0): return
-        self.statements.append(Statement(STATEMENT_CONSTANT_DEF, tokens))
+        while (len(tokens) > 0):
+            identifierName = tokens[1].value
+            constantValue = tokens[3].value
+            self.statements.append(Statement(STATEMENT_CONSTANT_DEF, tokens))
+
+            identifiers[identifierName] = Identifier(identifierName, TOKEN_TYPE_INTEGER, constantValue)
+            tokens = self.__check(SIMPLE_STATEMENT_RULES[STATEMENT_CONSTANT_DEF])
+        return
 
     def __display(self):
         if (self.current_token.type != TOKEN_DISPLAY): return
@@ -105,6 +129,11 @@ class Parser(object):
             self.__advance()
 
         self.statements.append(Statement(STATEMENT_DISPLAY, tokens))
+
+    def __set(self):
+        if (self.current_token.type != TOKEN_SET) : return
+        tokens = [self.current_token]
+        self.__advance()
 
     def parse(self):
         self.__advance()
@@ -135,3 +164,10 @@ class Identifier(object):
         self.name = name
         self.type = type
         self.value = value
+
+    def __str__(self):
+        str = '{name:<20} | {type:<20} | {value:>10}'.format(name=self.name, type=self.type, value=self.value)
+        return str
+
+    def __repr__(self):
+        return self.__str__()

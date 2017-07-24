@@ -66,15 +66,12 @@ ret_type  : TYPE type_name
           | STRUCTYPE IDENTIFIER 
           ;
 
-type_name       : MVOID
-                | INTEGER
+type_name       : INTEGER
                 | SHORT
                 | REAL
                 | FLOAT
                 | DOUBLE
                 | TBOOL
-                | CHAR
-                | TSTRING OF LENGTH ICON 
                 | TBYTE
                 ;
 

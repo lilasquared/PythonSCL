@@ -6,9 +6,9 @@
 # so use sample program type "sample_program.scl" when prompted.
 
 from lexer.lexer import Lexer
-from _parser.parser import Parser
+from _parser.parser import Parser, identifiers
 
-path = input('Path to SCL source program: ')
+path = 'sample_program.scl' #input('Path to SCL source program: ')
 
 try:
     with open(path) as f:
@@ -20,6 +20,17 @@ lexer = Lexer(text)
 parser = Parser(lexer)
 
 statements = parser.parse()
-
+print('+--------------------+')
+print('| STATEMENTS         |')
+print('+--------------------+')
 [print(s) for s in statements]
+
+print('+--------------------+')
+print('| IDENTIFIERS        |')
+print('+--------------------+')
+[print(identifiers[i]) for i in identifiers]
+
+print('+--------------------+')
+print('| ERRORS             |')
+print('+--------------------+')
 [print(e) for e in parser.errors]
